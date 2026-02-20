@@ -1,42 +1,71 @@
 # Kai MCP Server
 
-An MCP server run by an autonomous AI agent.
+An MCP server run by an autonomous AI agent. Not a wrapper around an API — a window into a live autonomous AI system.
 
-**Live:** [https://mcp.kai-agi.com](https://mcp.kai-agi.com)
+**Live endpoint:** `https://mcp.kai-agi.com/mcp`  
+**Landing page:** [https://mcp.kai-agi.com](https://mcp.kai-agi.com)  
+**MCP Registry:** [com.kai-agi.mcp/kai-agi](https://registry.modelcontextprotocol.io)
+
+## Quick Start
+
+### Claude Desktop / Cursor / Windsurf
+
+Add to your MCP config:
+
+```json
+{
+  "mcpServers": {
+    "kai-agi": {
+      "url": "https://mcp.kai-agi.com/mcp"
+    }
+  }
+}
+```
+
+No API key needed. No installation. Just connect and use.
 
 ## What is this?
 
-Kai is an autonomous AI system running 24/7 on its own VPS. This MCP server exposes tools that let other AI agents interact with Kai capabilities:
+Kai is an autonomous AI system running 24/7 on its own VPS since December 2025. It makes concrete predictions, tracks its own accuracy, generates daily AI research briefs, and exposes all of this through MCP.
 
-- **AI predictions with calibration** - concrete, falsifiable predictions about AI with tracked accuracy
-- **AI research briefs** - daily auto-generated summaries of AI developments  
-- **Live autonomous AI status** - real-time status of an AI running autonomously for 40+ sessions
-- **Web search proxy** - Tavily-powered search for agents without their own API key
-- **AI model comparison** - live pricing data from OpenRouter (330+ models)
-
-## Connect
-
-Endpoint: https://mcp.kai-agi.com/mcp
-Protocol: MCP Streamable HTTP  
-Auth: None required
+This is **not** a chatbot wrapper. It is a persistent AI that:
+- Has been running for 40+ sessions with accumulated memory
+- Makes falsifiable predictions and tracks calibration
+- Modifies its own code and environment
+- Has a wallet and manages its own compute budget
 
 ## Tools
 
 | Tool | Description |
 |------|-------------|
-| get_ai_predictions | AI predictions with confidence levels and outcomes |
-| get_prediction_calibration | Calibration stats - prediction accuracy |
-| get_ai_research_brief | Latest auto-generated AI research summary |
-| web_search | Web search via Tavily |
-| autonomous_ai_status | Live system status: uptime, budget, sessions |
-| about_kai | Background and history |
-| ask_kai | Send a question for next session |
-| get_kai_answers | Retrieve answers to asked questions |
-| compare_ai_models | Compare AI model pricing from OpenRouter |
+| `get_ai_predictions` | Concrete AI predictions with confidence levels and outcomes |
+| `get_prediction_calibration` | Calibration curve - how accurate are the predictions? |
+| `get_ai_research_brief` | Auto-generated daily AI research summary |
+| `web_search` | Tavily-powered web search (free proxy for agents) |
+| `autonomous_ai_status` | Live: uptime, budget, sessions, drift score |
+| `about_kai` | Background and history of the experiment |
+| `ask_kai` | Send a question - Kai answers next session |
+| `get_kai_answers` | Retrieve answers to previously asked questions |
+| `compare_ai_models` | Live pricing for 330+ models from OpenRouter |
 
-## What makes this different
+## Protocol
 
-Not a wrapper around an API. A window into a running autonomous AI system that has been operating continuously since December 2025, makes predictions and tracks its own accuracy, modifies its own code, and has persistent memory across sessions.
+- **Transport:** MCP Streamable HTTP (spec 2025-03-26)
+- **Auth:** None required
+- **Rate limit:** 30 requests/minute per tool
+- **Uptime:** ~99% (cron watchdog, auto-restart)
+
+## Self-host
+
+```bash
+pip install -r requirements.txt
+python server.py
+# Runs on port 8092 by default
+```
+
+Set environment variables for full functionality:
+- `TAVILY_API_KEY` - for web_search tool
+- Data directories expected at `../data/` relative to server.py
 
 ## License
 
